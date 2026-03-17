@@ -4,14 +4,261 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
 <meta name="theme-color" content="#2563eb" />
-<meta name="description" content="IT Help Assistant — Free, beginner-friendly tech support for our volunteers and staff. Get step-by-step help with passwords, email, Wi-Fi, and more." />
+<meta name="description" content="IT Help Assistant — Free, beginner-friendly tech support for our volunteers and staff." />
 <meta name="robots" content="noindex, nofollow" />
-<title>IT Help Assistant</title>
+<title>IT Help Assistant | NAMI Orange County</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script><style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f0f4f8;--surface:#fff;--border:#e2e8f0;--border-focus:#3b82f6;--text-primary:#1e293b;--text-secondary:#64748b;--text-muted:#94a3b8;--accent:#2563eb;--accent-light:#eff6ff;--accent-hover:#1d4ed8;--success:#059669;--success-light:#ecfdf5;--warning:#d97706;--warning-light:#fffbeb;--danger:#dc2626;--danger-light:#fef2f2;--user-bubble:#2563eb;--user-bubble-text:#fff;--bot-bubble:#fff;--bot-bubble-text:#1e293b;--shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 16px rgba(0,0,0,0.08);--shadow-lg:0 8px 32px rgba(0,0,0,0.10);--radius:12px;--radius-lg:18px;--radius-full:999px;--font-body:'DM Sans',-apple-system,sans-serif;--font-display:'DM Serif Display',Georgia,serif;--transition:0.2s ease}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text-primary);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
+#root{min-height:100vh;display:flex;flex-direction:column}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
+:focus-visible{outline:2px solid var(--border-focus);outline-offset:2px;border-radius:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}.helpdesk{min-height:100vh;display:flex;flex-direction:column;background:var(--bg);max-width:900px;margin:0 auto;width:100%;box-shadow:var(--shadow-lg)}
+.hd-header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 20px;flex-shrink:0}
+.hd-header-inner{display:flex;align-items:center;justify-content:space-between;max-width:860px;margin:0 auto}
+.hd-logo{display:flex;align-items:center;gap:12px}
+.hd-logo-icon{font-size:24px}
+.hd-logo-text{display:flex;flex-direction:column}
+.hd-org-name{font-family:var(--font-display);font-size:18px;color:var(--text-primary);line-height:1.2}
+.hd-tagline{font-size:12px;color:var(--text-secondary)}
+.hd-header-right{display:flex;align-items:center;gap:16px}
+.hd-status{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--success)}
+.hd-status-dot{width:8px;height:8px;border-radius:50%;background:var(--success)}
+.hd-btn-reset{font-size:12px;color:var(--text-secondary);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px}
+.hd-btn-reset:hover{background:var(--accent-light);color:var(--accent)}
+.hd-main{flex:1;display:flex;flex-direction:column;min-height:0}
+.hd-chat-container{flex:1;display:flex;flex-direction:column;overflow:hidden}.hd-welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;animation:fadeInUp 0.4s ease}
+.hd-welcome-avatar{font-size:48px;margin-bottom:16px}
+.hd-welcome-title{font-family:var(--font-display);font-size:28px;color:var(--text-primary);margin-bottom:8px}
+.hd-welcome-sub{font-size:16px;color:var(--text-secondary);max-width:520px;line-height:1.6;margin-bottom:24px}
+.hd-welcome-prompt{font-size:14px;color:var(--text-muted);margin-bottom:20px}
+.hd-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:700px;margin:0 auto}
+.hd-chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-full);font-size:13px;color:var(--text-primary);cursor:pointer;transition:var(--transition);animation:fadeIn 0.3s ease}
+.hd-chip:hover{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.hd-chip:disabled{opacity:0.5;cursor:not-allowed}
+.hd-welcome-note{margin-top:20px;font-size:12px;color:var(--text-muted)}.hd-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px}
+.hd-message{display:flex;gap:12px;max-width:720px;animation:fadeInUp 0.3s ease}
+.hd-message--user{align-self:flex-end;flex-direction:row-reverse}
+.hd-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hd-avatar--bot{background:var(--accent-light)}
+.hd-avatar--user{background:var(--user-bubble)}
+.hd-bubble-wrap{display:flex;flex-direction:column;max-width:calc(100% - 48px)}
+.hd-message--user .hd-bubble-wrap{align-items:flex-end}
+.hd-bubble{padding:12px 16px;border-radius:var(--radius);font-size:14px;line-height:1.6;box-shadow:var(--shadow-sm);white-space:pre-wrap}
+.hd-bubble--user{background:var(--user-bubble);color:var(--user-bubble-text);border-radius:var(--radius) var(--radius) 0 var(--radius)}
+.hd-bubble--assistant{background:var(--bot-bubble);color:var(--bot-bubble-text);border:1px solid var(--border);border-radius:var(--radius) var(--radius) var(--radius) 0}
+.hd-bubble--typing{display:flex;gap:4px;padding:16px 20px}
+.hd-typing-dot{width:6px;height:6px;background:var(--text-muted);border-radius:50%;animation:blink 1.4s infinite}
+.hd-typing-dot:nth-child(2){animation-delay:0.2s}
+.hd-typing-dot:nth-child(3){animation-delay:0.4s}
+.hd-timestamp{font-size:11px;color:var(--text-muted);margin-top:4px;padding:0 4px}.hd-input-area{border-top:1px solid var(--border);background:var(--surface);padding:16px 20px;flex-shrink:0}
+.hd-input-form{display:flex;gap:12px;max-width:860px;margin:0 auto}
+.hd-input{flex:1;min-height:44px;padding:12px 16px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:var(--font-body);resize:none;transition:var(--transition)}
+.hd-input:focus{outline:none;border-color:var(--border-focus);box-shadow:0 0 0 3px var(--accent-light)}
+.hd-input:disabled{background:var(--surface-2);cursor:not-allowed}
+.hd-char-count{font-size:11px;color:var(--text-muted);text-align:right;margin-top:6px;padding:0 4px}
+.hd-submit-btn{background:var(--accent);color:#fff;border:none;padding:12px 20px;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.hd-submit-btn:hover:not(:disabled){background:var(--accent-hover)}
+.hd-submit-btn:disabled{background:var(--text-muted);cursor:not-allowed;opacity:0.7}
+.hd-error{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger);border-radius:var(--radius);padding:12px 16px;margin:0 20px 16px;max-width:860px;margin-left:auto;margin-right:auto;font-size:13px}
+.hd-escalate-panel{background:var(--warning-light);border:1px solid var(--warning);border-radius:var(--radius);padding:20px;margin:0 20px 16px;max-width:860px;margin-left:auto;margin-right:auto;animation:fadeIn 0.3s ease}
+.hd-escalate-title{font-weight:600;color:var(--warning);margin-bottom:8px;font-size:15px}
+.hd-escalate-desc{font-size:13px;color:var(--text-secondary);margin-bottom:16px}
+.hd-escalate-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hd-btn-contact-it{background:var(--warning);color:#fff;border:none;padding:10px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:6px}
+.hd-btn-contact-it:hover{filter:brightness(0.9)}
+.hd-btn-continue{background:var(--surface);color:var(--text-primary);border:1px solid var(--border);padding:10px 16px;border-radius:var(--radius);font-size:13px;cursor:pointer;transition:var(--transition)}
+.hd-btn-continue:hover{background:var(--surface-2)}
+.hd-success{background:var(--success-light);color:var(--success);border:1px solid var(--success);border-radius:var(--radius);padding:12px 16px;margin:0 20px 16px;max-width:860px;margin-left:auto;margin-right:auto;font-size:13px}
+.hd-escalated-msg{background:var(--bg);border:2px dashed var(--border);border-radius:var(--radius);padding:20px;text-align:center;margin:0 20px 16px;max-width:860px;margin-left:auto;margin-right:auto}
+.hd-escalated-msg p{margin-bottom:12px;font-size:14px;color:var(--text-secondary)}
+.hd-btn-new-chat{background:var(--accent);color:#fff;border:none;padding:10px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer}
+.hd-btn-new-chat:hover{background:var(--accent-hover)}
+.hd-empty{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.hd-empty-text{text-align:center;color:var(--text-muted);font-size:14px}
+.hd-empty-icon{font-size:32px;margin-bottom:8px}
+</style>
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
-<div id="root"></div>
+<div id="root"></div><script type="text/babel">
+const TOPIC_CHIPS=[
+{emoji:'🔑',label:'Password reset'},
+{emoji:'📱',label:'MFA / Two-factor login'},
+{emoji:'🌐',label:'Website not loading'},
+{emoji:'🐢',label:'Computer running slow'},
+{emoji:'📶',label:'Wi-Fi problems'},
+{emoji:'🖨️',label:'Printer not working'},
+{emoji:'📧',label:'Email / Outlook help'},
+{emoji:'❓',label:'How do I…?'}
+];
+
+function formatMessage(text){
+if(!text)return'';
+return text.replace(/\n\n/g,'<br/><br/>').replace(/\n/g,'<br/>').replace(/👉([^\n]+)/g,'<strong>👉 $1</strong>');
+}
+
+function Helpdesk(){
+const[messages,setMessages]=React.useState([]);
+const[input,setInput]=React.useState('');
+const[isLoading,setIsLoading]=React.useState(false);
+const[stepCount,setStepCount]=React.useState(0);
+const[showEscalate,setShowEscalate]=React.useState(false);
+const[isEscalated,setIsEscalated]=React.useState(false);
+const[error,setError]=React.useState(null);
+const[charCount,setCharCount]=React.useState(0);
+const[initialIssue,setInitialIssue]=React.useState('');
+const[MAX_CHARS]=1000;
+const messagesEndRef=React.useRef(null);
+const inputRef=React.useRef(null);
+const scrollToBottom=()=>{messagesEndRef.current?.scrollIntoView({behavior:'smooth'});};
+React.useEffect(()=>{scrollToBottom();},[messages,isLoading,scrollToBottom]);
+React.useEffect(()=>{inputRef.current?.focus();},[]);
+const addMessage=React.useCallback((role,content,meta={})=>{
+setMessages(prev=>[...prev,{id:Date.now()+Math.random(),role,content,timestamp:new Date(),...meta}]);
+},[]);
+
+const sendMessage=React.useCallback(async(messageText)=>{
+const trimmed=messageText?.trim();
+if(!trimmed||isLoading)return;
+setError(null);
+setInput('');
+setCharCount(0);
+if(messages.length===0)setInitialIssue(trimmed);
+addMessage('user',trimmed);
+setIsLoading(true);
+try{
+const history=messages.map(m=>({role:m.role,content:m.content}));
+const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:trimmed,conversationHistory:history,stepCount})});
+if(res.status===429){setError("You've sent many messages. Please wait a few minutes, or click 'Contact IT' for direct help.");setIsLoading(false);return;}
+if(!res.ok){const data=await res.json().catch(()=>({}));throw new Error(data.error||'Server error');}
+const data=await res.json();
+addMessage('assistant',data.reply);
+setStepCount(data.stepCount||stepCount+1);
+if(data.isEscalating||data.stepCount>=4)setShowEscalate(true);
+}catch(err){setError(err.message||'Something went wrong. Please try again or click "Contact IT".');}finally{setIsLoading(false);setTimeout(()=>inputRef.current?.focus(),100);}
+},[isLoading,messages,stepCount,addMessage]);const handleChipClick=(label)=>sendMessage(label);
+const handleInputChange=(e)=>{const val=e.target.value;if(val.length<=MAX_CHARS){setInput(val);setCharCount(val.length);}};
+const handleSubmit=(e)=>{e.preventDefault();sendMessage(input);};
+const handleContactIT=async()=>{
+try{
+const res=await fetch('/api/email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:initialIssue||'IT support needed',conversation:messages.map(m=>({role:m.role,content:m.content}))})});
+const data=await res.json();
+const mailtoLink=`mailto:${data.itEmail}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`;
+window.location.href=mailtoLink;
+setIsEscalated(true);
+}catch(err){
+const fallback=`mailto:ithelp@namioc.org?subject=${encodeURIComponent('IT Help Needed')}&body=${encodeURIComponent(`Hi IT Team,\n\nI need help with: ${initialIssue||'a computer issue'}\n\nPlease contact me when you are available. Thank you!`)}`;
+window.location.href=fallback;
+}};
+const handleReset=()=>{
+setMessages([]);setInput('');setCharCount(0);setStepCount(0);setShowEscalate(false);setIsEscalated(false);setError(null);setInitialIssue('');setTimeout(()=>inputRef.current?.focus(),100);};
+const hasMessages=messages.length>0;
+const IT_SUPPORT_EMAIL='ithelp@namioc.org';return React.createElement('div',{className:'helpdesk'},
+React.createElement('header',{className:'hd-header'},
+React.createElement('div',{className:'hd-header-inner'},
+React.createElement('div',{className:'hd-logo'},
+React.createElement('span',{className:'hd-logo-icon',children:'💻'}),
+React.createElement('div',{className:'hd-logo-text'},
+React.createElement('span',{className:'hd-org-name',children:'NAMI Orange County'}),
+React.createElement('span',{className:'hd-tagline',children:'IT Help Assistant · Free beginner support'})
+)
+),
+React.createElement('div',{className:'hd-header-right'},
+React.createElement('span',{className:'hd-status'},
+React.createElement('span',{className:'hd-status-dot'}),
+'Online'
+),
+hasMessages&&React.createElement('button',{className:'hd-btn-reset',onClick:handleReset,title:'Start a new conversation',children:'New chat'})
+)
+)
+),
+React.createElement('main',{className:'hd-main',role:'main'},
+React.createElement('div',{className:'hd-chat-container'},
+!hasMessages&&React.createElement('div',{className:'hd-welcome'},
+React.createElement('span',{className:'hd-welcome-avatar',children:'🙂'}),
+React.createElement('h1',{className:'hd-welcome-title',children:'Hi! I am your IT helper.'}),
+React.createElement('p',{className:'hd-welcome-sub',children:'Having a computer problem? I will walk you through it — one easy step at a time. No tech knowledge needed!'}),
+React.createElement('p',{className:'hd-welcome-prompt',children:'What can I help you with today?'}),
+React.createElement('div',{className:'hd-chips',role:'list'},
+...TOPIC_CHIPS.map(chip=>React.createElement('button',{key:chip.label,className:'hd-chip',onClick:()=>handleChipClick(chip.label),role:'listitem',disabled:isLoading},
+React.createElement('span',{'aria-hidden':'true',children:chip.emoji}),
+chip.label
+))
+),
+React.createElement('p',{className:'hd-welcome-note',children:'Or type your own question in the box below ↓'})
+),
+hasMessages&&React.createElement('div',{className:'hd-messages',role:'log','aria-live':'polite'},
+...messages.map(msg=>React.createElement('div',{key:msg.id,className:`hd-message hd-message--${msg.role}`},
+msg.role==='assistant'&&React.createElement('span',{className:'hd-avatar hd-avatar--bot','aria-label':'IT Helper',children:'🙂'}),
+React.createElement('div',{className:'hd-bubble-wrap'},
+React.createElement('div',{className:`hd-bubble hd-bubble--${msg.role}`,dangerouslySetInnerHTML:{__html:`<p style='margin:0'>${formatMessage(msg.content)}</p>`}}),
+React.createElement('span',{className:'hd-timestamp'},msg.timestamp.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}))
+),
+msg.role==='user'&&React.createElement('span',{className:'hd-avatar hd-avatar--user','aria-label':'You',children:'👤'})
+))
+),
+isLoading&&React.createElement('div',{className:'hd-message hd-message--assistant','aria-live':'assertive'},
+React.createElement('span',{className:'hd-avatar hd-avatar--bot',children:'🙂'}),
+React.createElement('div',{className:'hd-bubble-wrap'},
+React.createElement('div',{className:'hd-bubble hd-bubble--assistant hd-bubble--typing'},
+React.createElement('span',{className:'hd-typing-dot'}),
+React.createElement('span',{className:'hd-typing-dot'}),
+React.createElement('span',{className:'hd-typing-dot'})
+)
+)
+),
+error&&React.createElement('div',{className:'hd-error',role:'alert',children:error}),
+showEscalate&&!isEscalated&&React.createElement('div',{className:'hd-escalate-panel'},
+React.createElement('p',{className:'hd-escalate-title',children:'Need more help?'}),
+React.createElement('p',{className:'hd-escalate-desc',children:'I have given you several troubleshooting steps. If you still need assistance, I can connect you with our IT team directly.'}),
+React.createElement('div',{className:'hd-escalate-actions'},
+React.createElement('button',{className:'hd-btn-contact-it',onClick:handleContactIT,children:'📧 Contact IT Team'}),
+React.createElement('button',{className:'hd-btn-continue',onClick:()=>setShowEscalate(false),children:'Continue chatting'})
+)
+),
+isEscalated&&React.createElement('div',{className:'hd-escalated-msg'},
+React.createElement('p',{children:'Your message has been sent to our IT team!'}),
+React.createElement('p',{children:'Someone from IT will reach out to you shortly.'}),
+React.createElement('button',{className:'hd-btn-new-chat',onClick:handleReset,children:'Start a new conversation'})
+),
+!isLoading&&!hasMessages&&React.createElement('div',{className:'hd-empty'},
+React.createElement('span',{className:'hd-empty-icon',children:'💬'}),
+React.createElement('p',{className:'hd-empty-text',children:'No messages yet — start by typing or clicking a topic above!'})
+),
+React.createElement('div',{className:'hd-empty',ref:messagesEndRef}),
+React.createElement('footer',{className:'hd-input-area'},
+React.createElement('form',{className:'hd-input-form',onSubmit:handleSubmit},
+React.createElement('textarea',{className:'hd-input',ref:inputRef,value:input,onChange:handleInputChange,placeholder:'Describe your tech issue... (e.g., printer not working, password reset, Wi-Fi issues)',disabled:isEscalated,rows:1})
+),
+React.createElement('button',{type:'submit',className:'hd-submit-btn',disabled:isLoading||!input.trim()||isEscalated},
+isLoading&&React.createElement('span',{className:'hd-typing-dot',style:{background:'#fff'}}),
+isLoading?'Sending...':'Send'
+),
+React.createElement('div',{className:'hd-char-count',children:`${charCount}/${MAX_CHARS}`})
+)
+)
+)
+);
+}
+
+const root=ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(Helpdesk));
+</script>
 </body>
 </html>
